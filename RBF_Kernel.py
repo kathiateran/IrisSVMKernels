@@ -39,7 +39,6 @@ print (iris.target_names)
 # In[5]:
 
 
-# Check the types of the features and response
 type('iris.data')
 type('iris.target')
 
@@ -56,7 +55,6 @@ features.shape
 # In[7]:
 
 
-# Values for targets
 targets = iris.target
 targets.reshape(targets.shape[0],-1)
 targets.shape
@@ -64,8 +62,6 @@ targets.shape
 
 # In[9]:
 
-
-# Every observation gets appended into the list once it is read. For loop is used for iteration process
 for observation in features:
     featuresAll.append([observation[0] + observation[1] + observation[2] + observation[3]])
 
@@ -80,9 +76,11 @@ class_names = iris.target_names
 
 #--------------------------------- RBF SVM ------------------------------#
 from sklearn.svm import SVC
-#from sklearn.svm import SVR
 
-classifier = SVC(kernel='rbf', gamma='auto')
+sigma=0.1
+gamma=1/(2*(sigma**2))
+
+classifier = SVC(kernel='rbf', gamma=gamma, C=1.0) 
 
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
@@ -123,9 +121,7 @@ def plot_confusion_matrix(y_true, y_pred, classes,
         else:
             title = '\nConfusion matrix, without normalization'
 
-    # Compute confusion matrix
     cm = confusion_matrix(y_true, y_pred)
-    # Only use the labels that appear in the data
     classes = classes[unique_labels(y_true, y_pred)]
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -138,20 +134,19 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     fig, ax = plt.subplots()
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
     ax.figure.colorbar(im, ax=ax)
-    # We want to show all ticks...
+    
     ax.set(xticks=np.arange(cm.shape[1]),
            yticks=np.arange(cm.shape[0]),
-           # ... and label them with the respective list entries
+
            xticklabels=classes, yticklabels=classes,
            title=title,
            ylabel='True label',
            xlabel='Predicted label')
 
-    # Rotate the tick labels and set their alignment.
+    # Tick labels + alignment.
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
              rotation_mode="anchor")
 
-    # Loop over data dimensions and create text annotations.
     fmt = '.2f' if normalize else 'd'
     thresh = cm.max() / 2.
     for i in range(cm.shape[0]):
@@ -165,11 +160,9 @@ def plot_confusion_matrix(y_true, y_pred, classes,
 
 np.set_printoptions(precision=2)
 
-# Plot non-normalized confusion matrix
 plot_confusion_matrix(y_test, y_pred, classes=class_names,
                       title='Confusion matrix, without normalization')
 
-# Plot normalized confusion matrix
 plot_confusion_matrix(y_test, y_pred, classes=class_names, normalize=True,
                       title='Normalized confusion matrix')
 
@@ -177,7 +170,6 @@ plt.show()
 
 
 # In[49]:
-
 
 #Classification Report
 from sklearn.metrics import classification_report
