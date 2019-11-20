@@ -80,7 +80,7 @@ class_names = iris.target_names
 
 #--------------------------------- Polynomial SVM ------------------------------#
 from sklearn.svm import SVC
-classifier = SVC(kernel='poly',C=0.01, degree=10, gamma='auto') 
+classifier = SVC(kernel='poly',C=1000, degree=8, gamma='auto') 
 
 from sklearn.model_selection import KFold
 from sklearn import metrics
