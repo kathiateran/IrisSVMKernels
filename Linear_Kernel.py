@@ -116,7 +116,8 @@ class_names = iris.target_names
 
 #--------------------------------- LINEAR SVM ------------------------------#
 
-classifier = svm.SVC(kernel='linear', C=0.01)
+classifier = svm.SVC(kernel='linear', C=0.01, gamma='auto')
+
 
 from sklearn.model_selection import KFold
 from sklearn import metrics
