@@ -80,7 +80,7 @@ from sklearn.svm import SVC
 sigma=0.1
 gamma=1/(2*(sigma**2))
 
-classifier = SVC(kernel='rbf', gamma=gamma, C=1.0) 
+classifier = SVC(kernel='rbf', gamma=gamma, C=100000) 
 
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
